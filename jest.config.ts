@@ -183,7 +183,12 @@ const config: Config = {
 	// testRunner: "jest-circus/runner",
 
 	// A map from regular expressions to paths to transformers
-	// transform: undefined,
+	transform: {
+		"^.+\\.(t|j)sx?$": "@swc/jest",
+	},
+	transformIgnorePatterns: [
+		"/node_modules/(?!(jose|openid-client|@panva|oidc-token-hash|next-auth|@upstash|@babel|@swc)/)"
+	],
 
 	// An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
 	// transformIgnorePatterns: [

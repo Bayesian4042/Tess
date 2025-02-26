@@ -9,7 +9,7 @@
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
-		"types": ["@testing-library/jest-dom"],
+		"types": ["@testing-library/jest-dom", "jest", "node"],
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
@@ -22,6 +22,6 @@
 			"@/*": ["./*"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/**/*.d.ts"],
 	"exclude": ["node_modules"]
 }

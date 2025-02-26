@@ -1,20 +1,48 @@
 generator client {
-	provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-	provider = "mongodb"
-	url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  id              String    @id @default(uuid())
   email           String    @unique
   name            String
   password        String
   profilePicture  String?   @map("profile_picture")
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
+  emails          Email[]
 
   @@map("users")
+}
+
+model Email {
+  id                    String                @id @default(uuid())
+  userId                String                @map("user_id")
+  subject               String
+  content               String
+  receivedAt           DateTime              @default(now()) @map("received_at")
+  user                  User                  @relation(fields: [userId], references: [id])
+  jobRequirementsParsed JobRequirementsParsed?
+
+  @@map("emails")
+}
+
+model JobRequirementsParsed {
+  id              String    @id @default(uuid())
+  emailId         String    @unique @map("email_id")
+  skills          String[]
+  experienceYears Int       @map("experience_years")
+  employmentType  String    @map("employment_type")
+  parsedAt        DateTime  @default(now()) @map("parsed_at") @db.Timestamptz
+  rawContent      String    @map("raw_content")
+  email           Email     @relation(fields: [emailId], references: [id])
+
+  @@index([skills])
+  @@index([employmentType])
+  @@map("job_requirements_parsed")
 }
